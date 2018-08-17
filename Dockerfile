@@ -37,10 +37,7 @@ RUN curl -fsSL -o /usr/local/src/python.tar.xz \
   && ln -s /usr/local/bin/python3 /usr/local/bin/python
 
 RUN pip install --upgrade pip
-RUN pip install pipenv
+RUN pip install numpy matplotlib cupy
 
 RUN mkdir -p /app
 WORKDIR /app
-
-ADD Pipfile Pipfile.lock /app/
-RUN pipenv install
