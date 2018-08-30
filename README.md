@@ -4,6 +4,5 @@
 # Run container
 
 ```bash
-docker build -t dlfs2 .
-docker run -ti --runtime nvidia -v `pwd`:/app dlfs2 bash -l
+./run.sh
 ```
