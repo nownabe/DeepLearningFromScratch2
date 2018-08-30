@@ -1,4 +1,5 @@
 from common.np import *
+from common.functions import softmax, cross_entropy_error
 
 
 class MatMul:
@@ -40,7 +41,7 @@ class Sigmoid:
 class Affine:
     def __init__(self, W, b):
         self.params = [W, b]
-        self.grands = [np.zeros_like(W), np.zeros_like(b)]
+        self.grads = [np.zeros_like(W), np.zeros_like(b)]
         self.x = None
 
     def forward(self, x):
