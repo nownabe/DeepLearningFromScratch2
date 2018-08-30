@@ -19,7 +19,7 @@ class TwoLayerNet:
 
         self.loss_layer = SoftmaxWithLoss()
 
-        self.params, self.grads = []
+        self.params, self.grads = [], []
 
         for layer in self.layers:
             self.params += layer.params
