@@ -1,5 +1,9 @@
 import sys
 sys.path.append('..')
+
+from common import config
+# config.GPU = True
+
 from common.optimizer import SGD
 from common.trainer import Trainer
 from dataset import spiral

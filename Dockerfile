@@ -1,5 +1,8 @@
 FROM nvidia/cuda:9.0-devel-ubuntu16.04
 
+ARG user
+ARG uid
+
 ENV python_version 3.7.0
 
 ENV DEBIAN_FRONTEND="noninteractive"
@@ -20,6 +23,12 @@ RUN apt-get update \
     xz-utils \
     zlib1g-dev \
   && rm -rf /var/lib/apt/lists/*
+
+
+# CuPy
+
+RUN mkdir -p /home/${user}
+RUN chown ${uid}.${uid} /home/${user}
 
 
 # Install Python

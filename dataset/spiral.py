@@ -1,5 +1,8 @@
 # coding: utf-8
-import numpy as np
+import sys
+sys.path.append('..')
+
+from common.np import *
 
 
 def load_data(seed=1984):
@@ -19,7 +22,7 @@ def load_data(seed=1984):
 
             ix = N*j + i
             x[ix] = np.array([radius*np.sin(theta),
-                              radius*np.cos(theta)]).flatten()
+                              radius*np.cos(theta)], dtype=np.float64).flatten()
             t[ix, j] = 1
 
     return x, t

@@ -1,6 +1,9 @@
 #!/bin/bash
 
-docker build -t dlfs2 .
+docker build \
+  --build-arg user=$(id -un) \
+  --build-arg uid=$(id -u) \
+  -t dlfs2 .
 
 docker run --rm -ti \
   --runtime nvidia \
