@@ -47,6 +47,7 @@ RUN curl -fsSL -o /usr/local/src/python.tar.xz \
 
 RUN pip install --upgrade pip
 RUN pip install numpy matplotlib cupy
+RUN pip install sklearn
 
 RUN mkdir -p /app
 WORKDIR /app
