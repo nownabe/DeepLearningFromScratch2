@@ -1,5 +1,5 @@
 import sys
-sys.path.appemd('..')
+sys.path.append('..')
 from common.np import *
 from common.layers import Embedding, SigmoidWithLoss
 import collections
@@ -76,7 +76,7 @@ class NegativeSamplingLoss:
         self.params, self.grads = [], []
         for layer in self.embed_dot_layers:
             self.params += layer.params
-            self.params += layer.grads
+            self.grads += layer.grads
 
     def forward(self, h, target):
         batch_size = target.shape[0]
@@ -84,7 +84,7 @@ class NegativeSamplingLoss:
 
         score = self.embed_dot_layers[0].forward(h, target)
         correct_label = np.ones(batch_size, dtype=np.int32)
-        loss = self.loss_layers[0].forward(score, corect_label)
+        loss = self.loss_layers[0].forward(score, correct_label)
 
         negative_label = np.zeros(batch_size, dtype=np.int32)
         for i in range(self.sample_size):

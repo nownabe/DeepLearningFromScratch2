@@ -125,7 +125,7 @@ def ppmi(C, verbose=False, eps = 1e-8):
     '''PPMI（正の相互情報量）の作成
 
     :param C: 共起行列
-    :param verbose: 進行状況を出力するかどうか    
+    :param verbose: 進行状況を出力するかどうか
     :return:
     '''
     M = np.zeros_like(C, dtype=np.float32)
@@ -299,3 +299,17 @@ def normalize(x):
         s = np.sqrt((x * x).sum())
         x /= s
     return x
+
+
+def to_cpu(x):
+    import numpy
+    if type(x) == numpy.ndarray:
+        return x
+    return np.asnumpy(x)
+
+
+def to_gpu(x):
+    import cupy
+    if type(x) == cupy.ndarray:
+        return x
+    return cupy.asarray(x)
