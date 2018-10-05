@@ -46,6 +46,7 @@ for epoch in range(max_epoch):
             for i, offset in enumerate(offsets):
                 batch_x[i, t] = xs[(offset + time_idx) % data_size]
                 batch_t[i, t] = xs[(offset + time_idx) % data_size]
+            time_idx += 1
         loss = model.forward(batch_x, batch_t)
         model.backward()
         optimizer.update(model.params, model.grads)
