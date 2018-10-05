@@ -41,7 +41,7 @@ class TimeRNN:
         self.grads = [np.zeros_like(Wx), np.zeros_like(Wh), np.zeros_like(b)]
         self.layers = None
 
-        selfh.h, self.dh = None, None
+        self.h, self.dh = None, None
         self.stateful = stateful
 
     def set_state(self, h):
@@ -80,7 +80,7 @@ class TimeRNN:
         for t in reversed(range(T)):
             layer = self.layers[t]
             dx, dh = layer.backward(dhs[:, t, :] + dh)
-            cxs[:, t, :] = dx
+            dxs[:, t, :] = dx
 
             for i, grad in enumerate(layer.grads):
                 grads[i] += grad
