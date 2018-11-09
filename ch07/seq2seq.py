@@ -48,6 +48,10 @@ class Decoder:
         affine_W = (rn(H, V) / np.sqrt(H)).astype('f')
         affine_b = np.zeros(V).astype('f')
 
+        self.embed = TimeEmbedding(embed_W)
+        self.lstm = TimeLSTM(lstm_Wx, lstm_Wh, lstm_b, stateful=True)
+        self.affine = TimeAffine(affine_W, affine_b)
+
         self.params, self.grads = [], []
         for layer in (self.embed, self.lstm, self.affine):
             self.params += layer.params
@@ -85,7 +89,7 @@ class Decoder:
         return sampled
 
 
-class Seq2Seq(BaseModel):
+class Seq2seq(BaseModel):
     def __init__(self, vocab_size, wordvec_size, hidden_size):
         V, D, H = vocab_size, wordvec_size, hidden_size
         self.encoder = Encoder(V, D, H)
