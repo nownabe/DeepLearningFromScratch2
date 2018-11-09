@@ -291,7 +291,7 @@ class TimeLSTM:
 
         for t in range(T):
             layer = LSTM(*self.params)
-            self.h, self.c = layer.forward(xs[: t, :], self.h, self.c)
+            self.h, self.c = layer.forward(xs[:, t, :], self.h, self.c)
             hs[:, t, :] = self.h
 
             self.layers.append(layer)
@@ -327,3 +327,22 @@ class TimeLSTM:
         self.h, self.c = None, None
 
 
+class TimeDropout:
+    def __init__(self, dropout_ratio=0.5):
+        self.params, self.grads = [], []
+        self.dropout_ratio = dropout_ratio
+        self.mask = None
+        self.train_flg = True
+
+    def forward(self, xs):
+        if self.train_flg:
+            flg = np.random.rand(*xs.shape) > self.dropout_ratio
+            scale = 1 / (1.0 - self.dropout_ratio)
+            self.mask = flg.astype(np.float32) * scale
+
+            return xs * self.mask
+        else:
+            return xs
+
+    def backward(self, dout):
+        return dout * self.mask
