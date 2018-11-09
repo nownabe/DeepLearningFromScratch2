@@ -22,6 +22,11 @@ corpus, word_to_id, id_to_word = ptb.load_data('train')
 corpus_val, _, _ = ptb.load_data('val')
 corpus_test, _, _ = ptb.load_data('test')
 
+if config.GPU:
+    corpus = to_gpu(corpus)
+    corpus_val = to_gpu(corpus_val)
+    corpus_test = to_gpu(corpus_test)
+
 vocab_size = len(word_to_id)
 xs = corpus[:-1]
 ts = corpus[1:]
@@ -30,12 +35,26 @@ model = BetterRnnlm(vocab_size, wordvec_size, hidden_size)
 optimizer = SGD(lr)
 trainer = RnnlmTrainer(model, optimizer)
 
-trainer.fit(xs, ts, max_epoch, batch_size, time_size, max_grad, eval_interval=20)
-trainer.plot(ylim=(0, 500))
+best_ppl = float('inf')
+
+for epoch in range(max_epoch):
+    trainer.fit(xs, ts, max_epoch=1, batch_size=batch_size,
+                time_size=time_size, max_grad=max_grad)
+
+    model.reset_state()
+    ppl = eval_perplexity(model, corpus_val)
+    print('valid perplexity: ', ppl)
+
+    if best_ppl > ppl:
+        best_ppl = ppl
+        model.save_params()
+    else:
+        lr /= 4.0
+        optimizer.lr = lr
+
+    model.reset_state()
+    print('-' * 50)
 
 model.reset_state()
 ppl_test = eval_perplexity(model, corpus_test)
 print('test perplexity: ', ppl_test)
-
-model.save_params()
-
