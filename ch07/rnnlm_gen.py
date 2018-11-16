@@ -24,6 +24,12 @@ class RnnlmGen(Rnnlm):
 
         return word_ids
 
+    def get_state(self):
+        return self.lstm_layer.h, self.lstm_layer.c
+
+    def set_state(self, state):
+        self.lstm_layer.set_state(*state)
+
 
 class BetterRnnlmGen(BetterRnnlm):
     def generate(self, start_id, skip_ids=None, sample_size=100):
@@ -42,3 +48,13 @@ class BetterRnnlmGen(BetterRnnlm):
                 word_ids.append(int(x))
 
         return word_ids
+
+    def get_state(self):
+        states = []
+        for layer in self.lstm_layers:
+            states.append((layer.h, layer.c))
+        return states
+
+    def set_state(self, states):
+        for layer, state in zip(self.lstm_layers, states):
+            layer.set_state(*state)

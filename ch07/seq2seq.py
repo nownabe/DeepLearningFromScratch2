@@ -29,7 +29,7 @@ class Encoder:
 
     def backward(self, dh):
         dhs = np.zeros_like(self.hs)
-        dhs[:, -1, :]
+        dhs[:, -1, :] = dh
 
         dout = self.lstm.backward(dhs)
         dout = self.embed.backward(dout)

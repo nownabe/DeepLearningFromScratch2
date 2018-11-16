@@ -6,7 +6,7 @@ from dataset import sequence
 from common.optimizer import Adam
 from common.trainer import Trainer
 from common.util import eval_seq2seq
-# from seq2seq import Seq2seq
+from seq2seq import Seq2seq
 from peeky_seq2seq import PeekySeq2seq
 
 
@@ -22,6 +22,7 @@ batch_size = 128
 max_epoch = 25
 max_grad = 5.0
 
+# model = Seq2seq(vocab_size, wordvec_size, hidden_size)
 model = PeekySeq2seq(vocab_size, wordvec_size, hidden_size)
 optimizer = Adam()
 trainer = Trainer(model, optimizer)
@@ -47,4 +48,4 @@ plt.plot(x, acc_list, marker='o')
 plt.xlabel('epochs')
 plt.ylabel('accuracy')
 plt.ylim(0, 1.0)
-
+plt.show()
