@@ -1,5 +1,6 @@
 import sys
 sys.path.append('..')
+sys.path.append('../ch07')
 from common.time_layers import *
 from ch07.seq2seq import Encoder, Seq2seq
 from ch08.attention_layer import TimeAttention
@@ -52,7 +53,7 @@ class AttentionDecoder:
 
         return score
 
-    def backward(self. dscore):
+    def backward(self, dscore):
         dout = self.affine.backward(dscore)
         N, T, H2 = dout.shape
         H = H2 // 2

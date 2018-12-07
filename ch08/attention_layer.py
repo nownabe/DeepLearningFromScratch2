@@ -76,7 +76,7 @@ class Attention:
     def backward(self, dout):
         dhs0, da = self.weight_sum_layer.backward(dout)
         dhs1, dh = self.attention_weight_layer.backward(da)
-        dsh = dhs0 + dhs1
+        dhs = dhs0 + dhs1
         return dhs, dh
 
 
